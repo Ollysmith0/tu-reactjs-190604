@@ -1,22 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
+import Header from './components/Header/Header'
+import Footer from './components/Footer/Footer'
+import ProductList from './components/ProductList/ProductList'
+import ProductItem from './components/ProductItem/ProductItem'
 import './App.css';
+
 
 function App(props) {
   return (
-    <div>
-      {props.dssp.map(sp =>{
-        return (
-          <div className="product">
-            <img className="product-img" src={sp.imgURL} />
-            <p>{sp.title}</p>
-            <p>{sp.description}</p>
-            <p>{sp.price}</p>
-          </div>
-        )
-      })}
-    </div>
+  <>
+    <Header />
+    <ProductList data={props.dssp} />
+    <Footer />
+  </>
   );
 }
+
+
 
 export default App;
