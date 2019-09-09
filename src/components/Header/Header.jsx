@@ -1,6 +1,7 @@
 import React from 'react'
 const Header = () => {
-    return (<header>
+    return (
+    <header>
         <div id="header-sticky" className="header-area box-90 sticky-header">
             <div className="container-fluid">
                 <div className="row align-items-center">
@@ -41,7 +42,7 @@ const Header = () => {
                                                 <a href="./register.html">Register</a>
                                             </li>
                                             <li>
-                                                <a href="./cart.html">Shoping Cart</a>
+                                                <a href="./cart.html"></a>
                                             </li>
                                         </ul>
                                     </li>
