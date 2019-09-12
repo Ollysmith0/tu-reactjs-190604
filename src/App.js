@@ -51,7 +51,7 @@ const dssp = [
 
 function App() {
   const [prdInCart, setPrdInCart] = useState([])
-  const [data, setData] = useState(dssp)
+  const [data, setData] = useState([])
   const addToCart = (product) => {
     setPrdInCart([...prdInCart, product])
   }
@@ -80,6 +80,20 @@ function App() {
     const newProducts = products.sort((a, b) => b.price - a.price);
     setData(newProducts)
   }
+
+  function getProductList() {
+    fetch("https://mapi.sendo.vn/mob/product/cat/ao-so-mi-nam?p=1")
+    .then(r => r.json())
+    .then(function(result) {
+      console.log(result)
+      setData(result.data) 
+      // dataFormAPI = result.data;
+      // render(dataFormAPI, table);
+      // openPage("product-list");
+    });
+  }
+  
+  
   return (
     <Router>
       <Header prdInCart={prdInCart} removeProduct={removeProduct} />
@@ -90,6 +104,7 @@ function App() {
       <Route exact path="/" render={() => 
       (<ProductList
         dssp={data}
+        getProductList={getProductList}
         handleSortNameAtoZ={handleSortNameAtoZ}
         handleSortNameZtoA={handleSortNameZtoA}
         handleSortPriceHighToLow={handleSortPriceHighToLow}

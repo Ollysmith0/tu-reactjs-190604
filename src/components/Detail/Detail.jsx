@@ -1,7 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {withRouter} from 'react-router-dom'
 const Detail = (props) => {
-    console.log(props.match.params.id);
+    const [product, setProduct] = useState(null)
+    function getProductDetail(id) {
+        fetch(`https://mapi.sendo.vn/mob/product/${id}/detail/`)
+        .then(r => r.json())
+        .then((result) => {
+            console.log(result)          // renderDetail(result.description);
+            setProduct(result)
+        });
+      }
+    const id = props.match.params.id
+    useEffect(() => {
+        getProductDetail(id)
+    }, [id])
+
+    if(!product) {
+        return 'Loadding,.....'
+    }
     return (
         <div>
             <header>
@@ -218,16 +234,12 @@ const Detail = (props) => {
                                         <a href="#">decor,</a>
                                         <a href="#">furniture</a>
                                     </div>
-                                    <h2 className="pro-details-title mb-15">Limonda Women Winter Cloth</h2>
+                                    <h2 className="pro-details-title mb-15">{product.name}</h2>
                                     <div className="details-price mb-20">
-                                        <span>$119.00</span>
-                                        <span className="old-price">$246.00</span>
+                                        <span>{product.final_price.toLocaleString()} VND</span>
+                                        <span className="old-price">{product.price.toLocaleString()} VND</span>
                                     </div>
                                     <div className="product-variant">
-                                        <div className="product-desc variant-item">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
-                                        </div>
                                         <div className="product-info-list variant-item">
                                             <ul>
                                                 <li><span>Brands:</span> Hewlett-Packard</li>
@@ -267,15 +279,7 @@ const Detail = (props) => {
                                     <div className="tab-content" id="myTabContent2">
                                         <div className="tab-pane fade show active" id="home6" role="tabpanel" aria-labelledby="home-tab6">
                                             <div className="desc-text">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                                                  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis
-                                                  unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
-                                      illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui
-                                                  ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                                      adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+                                                <div dangerouslySetInnerHTML={{__html: product.description}}/>
                                             </div>
                                         </div>
                                         <div className="tab-pane fade" id="profile6" role="tabpanel" aria-labelledby="profile-tab6">

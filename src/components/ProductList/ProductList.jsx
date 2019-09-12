@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./ProductList.css";
 import ProductItem from "../ProductItem/ProductItem";
 
 
-function ProductList({ dssp, handleSortNameAtoZ, handleSortNameZtoA, handleSortPriceHighToLow, handleSortPriceLowToHigh}){
+function ProductList({ dssp, getProductList, handleSortNameAtoZ, handleSortNameZtoA, handleSortPriceHighToLow, handleSortPriceLowToHigh}){
+   useEffect(() => {
+    getProductList()
+   }, [])
   return (
     <main>
       {/* shop-area start */}

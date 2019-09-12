@@ -1,20 +1,20 @@
 import React from "react";
 import {Link} from 'react-router-dom'
 export default function ProductItem({ product, onClick}) {
-  console.log(product);
+  // console.log(product);
   const handleClick = () => onClick(product)
   return (
     <div className="col-xl-4 col-lg-6 col-md-6">
       <div className="product-wrapper mb-50">
         <div className="product-img mb-25">
           <a href="#">
-            <img src="./assets/pro1.jpg" alt="" />
+            <img src={product.img_url} alt="" />
           </a>
           <div className="product-action text-center">
             <a href="#" title="Shoppingb Cart" onClick={handleClick}>
               <i className="fas fa-shopping-cart" />
             </a>
-            <Link to={`/chitietsanpham/${product.productId}`}>
+            <Link to={`/chitietsanpham/${product.product_id}`}>
               <i className="fas fa-search" />
             </Link>
           </div>
