@@ -1,6 +1,7 @@
 import React from "react";
-
-export default function ProductItem({ product, onClick }) {
+import {Link} from 'react-router-dom'
+export default function ProductItem({ product, onClick}) {
+  console.log(product);
   const handleClick = () => onClick(product)
   return (
     <div className="col-xl-4 col-lg-6 col-md-6">
@@ -13,9 +14,9 @@ export default function ProductItem({ product, onClick }) {
             <a href="#" title="Shoppingb Cart" onClick={handleClick}>
               <i className="fas fa-shopping-cart" />
             </a>
-            <a href="#" title="Quick View">
+            <Link to={`/chitietsanpham/${product.productId}`}>
               <i className="fas fa-search" />
-            </a>
+            </Link>
           </div>
         </div>
         <div className="product-content pr-0">

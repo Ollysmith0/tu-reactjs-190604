@@ -1,5 +1,7 @@
 import React from 'react'
+import {withRouter} from 'react-router-dom'
 const Detail = (props) => {
+    console.log(props.match.params.id);
     return (
         <div>
             <header>
@@ -686,4 +688,4 @@ const Detail = (props) => {
         </div>
     );
 };
-export default Detail
+export default withRouter(Detail)

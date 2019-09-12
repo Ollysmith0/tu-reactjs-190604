@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import Header from "./components/Header/Header";
+import Register from "./components/Register/Register";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
 import ProductList from "./components/ProductList/ProductList";
 import Login from "./components/Login/Login";
 import ProductItem from "./components/ProductItem/ProductItem";
-
+import NoMatch from "./components/NoMatch/NoMatch"
+import Detail from "./components/Detail/Detail"
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 
 const dssp = [
@@ -78,18 +81,26 @@ function App() {
     setData(newProducts)
   }
   return (
-    <>
+    <Router>
       <Header prdInCart={prdInCart} removeProduct={removeProduct} />
       {/* <ProductList data={dssp} addToCart={addToCart}/> */}
-      <ProductList 
-        dssp={data} 
-        handleSortNameAtoZ={handleSortNameAtoZ} 
-        handleSortNameZtoA={handleSortNameZtoA} 
-        handleSortPriceHighToLow={handleSortPriceHighToLow} 
+      <Switch>
+      <Route path="/(login|dangnhap)/" component={Login} />
+      <Route path="/(register|dangky)/" component={Register} />
+      <Route exact path="/" render={() => 
+      (<ProductList
+        dssp={data}
+        handleSortNameAtoZ={handleSortNameAtoZ}
+        handleSortNameZtoA={handleSortNameZtoA}
+        handleSortPriceHighToLow={handleSortPriceHighToLow}
         handleSortPriceLowToHigh={handleSortPriceLowToHigh}
-         />
+      />)}
+      />
+        <Route path="/(detail|chitietsanpham)/:id" component={Detail} />
+        <Route component={NoMatch} />
+      </Switch>
       <Footer />
-    </>
+    </Router>
   );
 }
 
