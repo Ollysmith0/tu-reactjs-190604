@@ -1,5 +1,24 @@
 import React from 'react'
-const Register = (props) => {
+import {useState} from 'react'
+import firebaseApp from '../../firebase';
+export default function Register() {
+  const [formData, setFormData] = useState({ email: '', password: ''})
+  const [errMsg, setErrMsg] = useState(null)
+  const [completeRegister, setCompleteRegister] = useState(false)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      await firebaseApp.auth().createUserWithEmailAndPassword(formData.email, formData.password)
+      setCompleteRegister(true)
+    } catch(error) {
+      setErrMsg(error.message)
+    }
+  }
+
+  const onChange = (e) => {
+    const id = e.target.id
+    setFormData({ ...formData, [id]: e.target.value })
+  }
             return (
                 <div>
                     <header>
@@ -179,18 +198,25 @@ const Register = (props) => {
                                     <div className="col-lg-8 offset-lg-2">
                                         <div className="basic-login">
                                             <h3 className="text-center mb-60">Signup From Here</h3>
-                                            <form action="#">
+                                            {
+                                                (completeRegister) ?
+                                                    <p>Bạn đã đăng ký thành công</p>
+                                                    :
+                                                    <form action="#">
+                                                <p>{errMsg}</p>
                                                 <label htmlFor="name">Username <span>**</span></label>
                                                 <input id="name" type="text" placeholder="Enter Username or Email address..." />
                                                 <label htmlFor="email-id">Email Address <span>**</span></label>
-                                                <input id="email-id" type="text" placeholder="Enter Username or Email address..." />
+                                                <input id="email" onChange={onChange} type="text" placeholder="Enter Username or Email address..." />
                                                 <label htmlFor="pass">Password <span>**</span></label>
-                                                <input id="pass" type="password" placeholder="Enter password..." />
+                                                <input id="password" onChange={onChange} type="password" placeholder="Enter password..." />
                                                 <div className="mt-10" />
-                                                <button className="btn theme-btn-2 w-100">Register Now</button>
+                                                <button className="btn theme-btn-2 w-100" onClick={handleSubmit}>Register Now</button>
                                                 <div className="or-divide"><span>or</span></div>
                                                 <button className="btn theme-btn w-100">login Now</button>
                                             </form>
+                                            }
+                           
                                         </div>
                                     </div>
                                 </div>
@@ -284,5 +310,3 @@ const Register = (props) => {
                 </div>
             );
         };
-
-export default Register

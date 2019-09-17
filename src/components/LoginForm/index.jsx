@@ -1,41 +1,35 @@
-import React, { useEffect , useState } from 'react'
-import firebaseApp from '../../firebase'
-import {withRouter} from 'react-router-dom'
+import React, { useState } from 'react';
 
+export default function LoginForm(props) {
 
-const Login = (props) => {
-  const [formData, setFormData] = useState({ email: '', password: ''})
-  const [errMsg, setErrMsg] = useState(null)
-  const handleSubmit = async (e) => {
+  const { error, loading, login } = props;
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const onSubmit  = async (e) => {
     e.preventDefault()
     try {
-      await firebaseApp.auth().signInWithEmailAndPassword(formData.email, formData.password)
+      await login(email, password)
+      // props.history.push('/')
     } catch(error) {
-      setErrMsg(error.message)
+
     }
-    console.log(formData)
   }
 
-  const onChange = (e) => {
-    const id = e.target.id
-    setFormData({ ...formData, [id]: e.target.value })
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value)
   }
 
-  useEffect(() => {
-    firebaseApp.auth().onAuthStateChanged((result) => {
-      //Nếu đã đăng nhập thì chuyển thành trang home
-      if(result){
-        props.history.push('/')
-      }
-    });
-  }, [])
+  const onChangePassword = (e) => {
+    setPassword(e.target.value)
+  }
 
-
-
-
+  const onRegister = () => {
+    props.history.push('/register')
+  }
+  
   return (
     <main>
-        {/* breadcrumb-area-start */}
         <section className="breadcrumb-area" style={{backgroundImage: 'url("./assets/page-title.png")'}}>
           <div className="container">
             <div className="row">
@@ -51,20 +45,23 @@ const Login = (props) => {
             </div>
           </div>
         </section>
-        {/* breadcrumb-area-end */}
-        {/* login Area Strat*/}
         <section className="login-area pt-100 pb-100">
           <div className="container">
             <div className="row">
               <div className="col-lg-8 offset-lg-2">
                 <div className="basic-login">
                   <h3 className="text-center mb-60">Login From Here</h3>
-                  <p>{errMsg}</p>
-                  <form onSubmit={handleSubmit}>
+                  <p className="text-danger">{error}</p>
+                  <form onSubmit={onSubmit}>
                     <label htmlFor="name">Email Address <span>**</span></label>
-                    <input id="email" onChange={onChange} type="text" placeholder="Enter Username or Email address..." />
+                    <input 
+                      id="name" 
+                      type="text" 
+                      placeholder="Enter Username or Email address..."
+                      onChange={onChangeEmail}
+                    />
                     <label htmlFor="pass">Password <span>**</span></label>
-                    <input id="password" onChange={onChange} type="password" placeholder="Enter password..." />
+                    <input id="pass" type="password" placeholder="Enter password..." onChange={onChangePassword} />
                     <div className="login-action mb-20 fix">
                       <span className="log-rem f-left">
                         <input id="remember" type="checkbox" />
@@ -74,18 +71,20 @@ const Login = (props) => {
                         <a href="#">Lost your password?</a>
                       </span>
                     </div>
-                    <button type="submit" className="btn theme-btn-2 w-100">Login Now</button>
+                    {
+                      loading  
+                      ? <p>Loading....</p>
+                      : <button className="btn theme-btn-2 w-100">Login Now</button>
+                    }
+
                     <div className="or-divide"><span>or</span></div>
-                    
-                    <button className="btn theme-btn w-100">Register Now</button>
+                    <button className="btn theme-btn w-100" onClick={onRegister}>Register Now</button>
                   </form>
                 </div>
               </div>
             </div>
           </div>
         </section>
-        {/* login Area End*/}
       </main>
   )
 }
-export default withRouter(Login)

@@ -8,6 +8,7 @@ import Login from "./components/Login/Login";
 import ProductItem from "./components/ProductItem/ProductItem";
 import NoMatch from "./components/NoMatch/NoMatch"
 import Detail from "./components/Detail/Detail"
+import PrivateRoute from "./components/PrivateRoute"
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 
@@ -111,7 +112,8 @@ function App() {
         handleSortPriceLowToHigh={handleSortPriceLowToHigh}
       />)}
       />
-        <Route path="/(detail|chitietsanpham)/:id" component={Detail} />
+        <PrivateRoute path="/(detail|chitietsanpham)/:id" component={Detail} />
+        
         <Route component={NoMatch} />
       </Switch>
       <Footer />
