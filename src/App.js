@@ -3,13 +3,14 @@ import Header from "./components/Header/Header";
 import Register from "./components/Register/Register";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
-import ProductList from "./components/ProductList/ProductList";
+import ProductList from "./components/ProductList/ProductList.container";
 import Login from "./components/Login/Login";
-import ProductItem from "./components/ProductItem/ProductItem";
+import ProductItem from "./components/ProductItem/ProductItem"
 import NoMatch from "./components/NoMatch/NoMatch"
-import Detail from "./components/Detail/Detail"
+import ProductDetail from "./components/ProductDetail/ProductDetail"
 import PrivateRoute from "./components/PrivateRoute"
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+
 
 
 const dssp = [
@@ -81,18 +82,6 @@ function App() {
     const newProducts = products.sort((a, b) => b.price - a.price);
     setData(newProducts)
   }
-
-  function getProductList() {
-    fetch("https://mapi.sendo.vn/mob/product/cat/ao-so-mi-nam?p=1")
-    .then(r => r.json())
-    .then(function(result) {
-      console.log(result)
-      setData(result.data) 
-      // dataFormAPI = result.data;
-      // render(dataFormAPI, table);
-      // openPage("product-list");
-    });
-  }
   
   
   return (
@@ -104,15 +93,13 @@ function App() {
       <Route path="/(register|dangky)/" component={Register} />
       <Route exact path="/" render={() => 
       (<ProductList
-        dssp={data}
-        getProductList={getProductList}
         handleSortNameAtoZ={handleSortNameAtoZ}
         handleSortNameZtoA={handleSortNameZtoA}
         handleSortPriceHighToLow={handleSortPriceHighToLow}
         handleSortPriceLowToHigh={handleSortPriceLowToHigh}
       />)}
       />
-        <PrivateRoute path="/(detail|chitietsanpham)/:id" component={Detail} />
+        <PrivateRoute path="/(ProductDetail|chitietsanpham)/:id" component={ProductDetail} />
         
         <Route component={NoMatch} />
       </Switch>

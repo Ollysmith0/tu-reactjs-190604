@@ -3,9 +3,11 @@ import "./ProductList.css";
 import ProductItem from "../ProductItem/ProductItem";
 
 
-function ProductList({ dssp, getProductList, handleSortNameAtoZ, handleSortNameZtoA, handleSortPriceHighToLow, handleSortPriceLowToHigh}){
+function ProductList(props){
+  const { dssp, getProducts, handleSortNameAtoZ, handleSortNameZtoA, handleSortPriceHighToLow, handleSortPriceLowToHigh} = props
+  console.log(props)
    useEffect(() => {
-    getProductList()
+    getProducts()
    }, [])
   return (
     <main>
