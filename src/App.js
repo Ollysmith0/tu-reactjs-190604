@@ -4,10 +4,10 @@ import Register from "./components/Register/Register";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
 import ProductList from "./components/ProductList/ProductList.container";
-import Login from "./components/Login/Login";
+import Login from "./components/Login/Login.container";
 import ProductItem from "./components/ProductItem/ProductItem"
 import NoMatch from "./components/NoMatch/NoMatch"
-import ProductDetail from "./components/ProductDetail/ProductDetail"
+import ProductDetail from "./components/ProductDetail/ProductDetail.container"
 import PrivateRoute from "./components/PrivateRoute"
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 

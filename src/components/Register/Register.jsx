@@ -1,7 +1,7 @@
 import React from 'react'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import firebaseApp from '../../firebase';
-export default function Register() {
+export default function Register(props) {
   const [formData, setFormData] = useState({ email: '', password: ''})
   const [errMsg, setErrMsg] = useState(null)
   const [completeRegister, setCompleteRegister] = useState(false)
@@ -19,6 +19,10 @@ export default function Register() {
     const id = e.target.id
     setFormData({ ...formData, [id]: e.target.value })
   }
+  useEffect(() => {
+    if (completeRegister === true) {
+    props.history.push('/Login')}
+  }, [completeRegister])
             return (
                 <div>
                     <header>

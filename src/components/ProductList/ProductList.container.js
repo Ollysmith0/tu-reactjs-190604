@@ -10,7 +10,7 @@ const mapStateToProps = (state) => {
     console.log(state, 'console');
   return {
     dssp: state.productListReducer.result,
-    proomotedProducts: state.productListReducer.result.filter(elm => elm.price > elm.final_price)
+    // proomotedProducts: state.productListReducer.result.filter(elm => elm.price > elm.final_price)
   }
 }
 

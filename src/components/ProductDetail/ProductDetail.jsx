@@ -1,23 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {withRouter} from 'react-router-dom'
-const Detail = (props) => {
-    const [product, setProduct] = useState(null)
-    function getProductDetail(id) {
-        fetch(`https://mapi.sendo.vn/mob/product/${id}/detail/`)
-        .then(r => r.json())
-        .then((result) => {
-            console.log(result)          // renderDetail(result.description);
-            setProduct(result)
-        });
-      }
+const ProductDetail = (props) => {
+    console.log(props);
     const id = props.match.params.id
+    const product = props.product
     useEffect(() => {
-        getProductDetail(id)
+        console.log("abc", id)
+        props.getProductDetail(id)
     }, [id])
 
-    if(!product) {
+    if(props.load || !props.product) {
         return 'Loadding,.....'
     }
+
     return (
         <div>
             <header>
@@ -692,4 +687,4 @@ const Detail = (props) => {
         </div>
     );
 };
-export default withRouter(Detail)
+export default withRouter(ProductDetail)

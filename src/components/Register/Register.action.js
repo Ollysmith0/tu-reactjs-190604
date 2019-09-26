@@ -1,7 +1,7 @@
+import firebaseApp from '../../firebase'
 export const REGISTER_REQUEST = "REGISTER_REQUEST"
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS"
-export const REGISTER_FAIL = "REGISTER_FAIL"
-export const REGISTER = `REGISTER`
+export const REGISTER_ERROR = "REGISTER_ERROR"
 
 export function registerRequest(){
     return {
@@ -17,10 +17,22 @@ export function registerSuccess(authenticationData) {
     }
 }
 
-export function registerFail(error) {
+export function registerError(error) {
     return{
-        type: REGISTER_FAIL,
+        type: REGISTER_ERROR,
         error: error
     }
 }
 
+export function getRegister(email,password) {
+    return async (dispatch) => {
+        try{
+            dispatch(registerRequest())
+            const result = await firebaseApp.auth().signInWithEmailAndPassword(email,password);
+            dispatch(registerSuccess(result))
+        }catch(error){
+            dispatch(registerError(error.message))
+        }
+
+    }
+}

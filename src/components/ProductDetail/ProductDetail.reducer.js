@@ -1,18 +1,20 @@
-import { VIEW_PRODUCT_DETAIL } from './ProductDetail.action'
+import { GET_PRODUCTDETAIL_ERROR, GET_PRODUCTDETAIL_SUCCESS, GET_PRODUCTDETAIL_REQUEST } from './ProductDetail.action'
 
 const initialState = {
-    selectedItems: []
+    result: null,
+    load: false,
+    error: null
 }
 
-export default function productDetailReducer(state = initialState, action){
+export default function productDetailReducer(state = initialState, action) {
     switch (action.type) {
-        case VIEW_PRODUCT_DETAIL:
-            return {
-                ...state,
-                selectedItems:[...state.selectedItems, action.payload]
-            }
-        
+        case GET_PRODUCTDETAIL_REQUEST:
+            return {...state, load: true};
+        case GET_PRODUCTDETAIL_SUCCESS:
+            return {...state, load:false, result:action.payload};
+        case GET_PRODUCTDETAIL_ERROR:
+            return {...state, load:false, error:action.error};
         default:
-            return state
+            return state;
     }
 }
