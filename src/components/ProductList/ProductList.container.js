@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  getProducts
+  getProducts: getProducts
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList)

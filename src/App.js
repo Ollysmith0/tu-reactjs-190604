@@ -5,7 +5,6 @@ import "./App.css";
 import Footer from "./components/Footer/Footer";
 import ProductList from "./components/ProductList/ProductList.container";
 import Login from "./components/Login/Login.container";
-import ProductItem from "./components/ProductItem/ProductItem"
 import NoMatch from "./components/NoMatch/NoMatch"
 import ProductDetail from "./components/ProductDetail/ProductDetail.container"
 import PrivateRoute from "./components/PrivateRoute"
@@ -54,13 +53,16 @@ const dssp = [
 function App() {
   const [prdInCart, setPrdInCart] = useState([])
   const [data, setData] = useState([])
-  const addToCart = (product) => {
+  const onAddToCart = (product) => {
     setPrdInCart([...prdInCart, product])
   }
 
   const removeProduct = (product) => {
-    const products = prdInCart.filter(elm => elm.productId !== product.productId)
+    console.log(product, 'product')
+    const products = prdInCart.filter(elm => elm.product_id !== product.product_id)
     setPrdInCart(products)
+    console.log(products,'products')
+    console.log(prdInCart,'prdInCart')
   }
   const handleSortNameAtoZ = () => {
     const products = [...data]
@@ -86,7 +88,7 @@ function App() {
   
   return (
     <Router>
-      <Header prdInCart={prdInCart} removeProduct={removeProduct} />
+      <Header onAddToCart={onAddToCart} prdInCart={prdInCart} removeProduct={removeProduct} />
       {/* <ProductList data={dssp} addToCart={addToCart}/> */}
       <Switch>
       <Route path="/(login|dangnhap)/" component={Login} />
@@ -97,6 +99,8 @@ function App() {
         handleSortNameZtoA={handleSortNameZtoA}
         handleSortPriceHighToLow={handleSortPriceHighToLow}
         handleSortPriceLowToHigh={handleSortPriceLowToHigh}
+        onAddToCart={onAddToCart}
+        removeProduct={removeProduct}
       />)}
       />
         <PrivateRoute path="/(ProductDetail|chitietsanpham)/:id" component={ProductDetail} />

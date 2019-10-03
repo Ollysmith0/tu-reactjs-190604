@@ -3,8 +3,7 @@ import ProductItem from "../ProductItem/ProductItem";
 
 
 function ProductList(props){
-  const { dssp, getProducts, handleSortNameAtoZ, handleSortNameZtoA, handleSortPriceHighToLow, handleSortPriceLowToHigh} = props
-  console.log(props)
+  const { onAddToCart, dssp, getProducts, handleSortNameAtoZ, handleSortNameZtoA, handleSortPriceHighToLow, handleSortPriceLowToHigh} = props
    useEffect(() => {
     getProducts()
    }, [])
@@ -34,7 +33,7 @@ function ProductList(props){
                   <div className="row">
                     {dssp.map(elm => {
                       return (
-                        <ProductItem product={elm} />
+                        <ProductItem product={elm} onAddToCart={onAddToCart} />
                       );
                     })}
                   </div>

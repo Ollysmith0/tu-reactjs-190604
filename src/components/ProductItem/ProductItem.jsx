@@ -1,8 +1,9 @@
 import React from "react";
 import {Link} from 'react-router-dom'
-export default function ProductItem({ product, onClick}) {
-  // console.log(product);
-  const handleClick = () => onClick(product)
+export default function ProductItem({ product, onAddToCart}) {
+  // console.log(product)
+  const addToCart = () => onAddToCart(product)
+  console.log(product, 'product')
   return (
     <div className="col-xl-4 col-lg-6 col-md-6">
       <div className="product-wrapper mb-50">
@@ -11,7 +12,7 @@ export default function ProductItem({ product, onClick}) {
             <img src={product.img_url} alt="" />
           </a>
           <div className="product-action text-center">
-            <a href="#" title="Shoppingb Cart" onClick={handleClick}>
+            <a href="#" title="Shopping Cart" onClick={addToCart}>
               <i className="fas fa-shopping-cart" />
             </a>
             <Link to={`/chitietsanpham/${product.product_id}`}>
