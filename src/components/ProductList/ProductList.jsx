@@ -1,12 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ProductItem from "../ProductItem/ProductItem";
 
+function ProductList(props) {
+  const [sortNameAtoZ, setSortNameAtoZ] = useState(false);
+  const [sortNameZtoA, setSortNameZtoA] = useState(false);
+  const [sortPriceHtoL, setSortPriceHtoL] = useState(false);
+  const [sortPriceLtoH, setSortPriceLtoH] = useState(false);
+  const [sortTopSale, setSortTopSale] = useState(false);
+  const [searchString, setSearchString] = useState();
+  const [searchProducts, setSearchProducts] = useState(false);
+  const {
+    onAddToCart,
+    getProducts,
+    dssp,
+    searchProduct,
+    searchProductList,
+  } = props;
 
-function ProductList(props){
-  const { onAddToCart, dssp, getProducts, handleSortNameAtoZ, handleSortNameZtoA, handleSortPriceHighToLow, handleSortPriceLowToHigh} = props
-   useEffect(() => {
-    getProducts()
-   }, [])
+  const handleChange = (e) => {
+    setSearchString(e.target.value);
+  };
+  const handleSubmit = () => {
+    searchProduct(searchString);
+    setSearchProducts(true);
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, [getProducts]);
+
   return (
     <main>
       {/* shop-area start */}
@@ -31,11 +53,99 @@ function ProductList(props){
                   aria-labelledby="home-tab"
                 >
                   <div className="row">
-                    {dssp.map(elm => {
-                      return (
-                        <ProductItem product={elm} onAddToCart={onAddToCart} />
-                      );
-                    })}
+                    {sortNameAtoZ
+                      ? dssp
+                          .sort(
+                            (a, b) =>
+                              a.name.charCodeAt(0) - b.name.charCodeAt(0)
+                          )
+                          .map((elm, i) => {
+                            return (
+                              <ProductItem
+                                key={i}
+                                product={elm}
+                                onAddToCart={onAddToCart}
+                              />
+                            );
+                          })
+                      : sortNameZtoA
+                      ? dssp
+                          .sort(
+                            (a, b) =>
+                              b.name.charCodeAt(0) - a.name.charCodeAt(0)
+                          )
+                          .map((elm, i) => {
+                            return (
+                              <ProductItem
+                                key={i}
+                                product={elm}
+                                onAddToCart={onAddToCart}
+                              />
+                            );
+                          })
+                      : sortPriceHtoL
+                      ? dssp
+                          .sort(
+                            (a, b) =>
+                              parseInt(b.final_price) - parseInt(a.final_price)
+                          )
+                          .map((elm, i) => {
+                            return (
+                              <ProductItem
+                                key={i}
+                                product={elm}
+                                onAddToCart={onAddToCart}
+                              />
+                            );
+                          })
+                      : sortPriceLtoH
+                      ? dssp
+                          .sort(
+                            (a, b) =>
+                              parseInt(a.final_price) - parseInt(b.final_price)
+                          )
+                          .map((elm, i) => {
+                            return (
+                              <ProductItem
+                                key={i}
+                                product={elm}
+                                onAddToCart={onAddToCart}
+                              />
+                            );
+                          })
+                      : sortTopSale
+                      ? dssp
+                          .sort(
+                            (a, b) => b.promotion_percent - a.promotion_percent
+                          )
+                          .map((elm, i) => {
+                            return (
+                              <ProductItem
+                                key={i}
+                                product={elm}
+                                onAddToCart={onAddToCart}
+                              />
+                            );
+                          })
+                      : searchProducts
+                      ? searchProductList.map((elm, i) => {
+                          return (
+                            <ProductItem
+                              key={i}
+                              product={elm}
+                              onAddToCart={onAddToCart}
+                            />
+                          );
+                        })
+                      : dssp.map((elm, i) => {
+                          return (
+                            <ProductItem
+                              key={i}
+                              product={elm}
+                              onAddToCart={onAddToCart}
+                            />
+                          );
+                        })}
                   </div>
                 </div>
               </div>
@@ -45,9 +155,13 @@ function ProductList(props){
               <div className="sidebar-shop">
                 <div className="shop-widget">
                   <h3 className="shop-title">Search by</h3>
-                  <form action="#" className="shop-search">
-                    <input type="text" placeholder="Your keyword...." />
-                    <button>
+                  <form onSubmit={handleSubmit} className="shop-search">
+                    <input
+                      onChange={handleChange}
+                      type="text"
+                      placeholder="Your keyword...."
+                    />
+                    <button type="submit">
                       <i className="fa fa-search" />
                     </button>
                   </form>
@@ -64,19 +178,74 @@ function ProductList(props){
                   <h3 className="shop-title">SHOP BY</h3>
                   <ul className="shop-link">
                     <li>
-                      <a onClick={handleSortNameAtoZ} >Name: A-Z</a>
+                      <a
+                        href="/#"
+                        onClick={() => {
+                          setSortNameAtoZ(!sortNameAtoZ);
+                          setSortNameZtoA(false);
+                          setSortPriceHtoL(false);
+                          setSortPriceLtoH(false);
+                          setSortTopSale(false);
+                        }}
+                      >
+                        Name: A-Z
+                      </a>
                     </li>
                     <li>
-                      <a onClick={handleSortNameZtoA} cd>Name: Z-A</a>
+                      <a
+                        href="/#"
+                        onClick={() => {
+                          setSortNameZtoA(!sortNameZtoA);
+                          setSortNameAtoZ(false);
+                          setSortPriceHtoL(false);
+                          setSortPriceLtoH(false);
+                          setSortTopSale(false);
+                        }}
+                      >
+                        Name: Z-A
+                      </a>
                     </li>
                     <li>
-                      <a onClick={handleSortPriceHighToLow} cd>Price: High to Low</a>
+                      <a
+                        href="/#"
+                        onClick={() => {
+                          setSortPriceHtoL(!sortPriceHtoL);
+                          setSortNameAtoZ(false);
+                          setSortNameZtoA(false);
+                          setSortPriceLtoH(false);
+                          setSortTopSale(false);
+                        }}
+                      >
+                        Price: High to Low
+                      </a>
                     </li>
                     <li>
-                      <a onClick={handleSortPriceLowToHigh} cd>Price: Low to High</a>
+                      <a
+                        href="/#"
+                        onClick={() => {
+                          setSortPriceLtoH(!sortPriceLtoH);
+                          setSortNameAtoZ(false);
+                          setSortPriceHtoL(false);
+                          setSortNameZtoA(false);
+                          setSortTopSale(false);
+                        }}
+                      >
+                        Price: Low to High
+                      </a>
                     </li>
                     <li>
-                      <a href="#">Product: Top Sales</a>
+                      <a
+                        href="/#"
+                        onClick={() => {
+                          setSortTopSale(!sortTopSale);
+                          setSortNameZtoA(false);
+                          setSortNameAtoZ(false);
+                          setSortPriceLtoH(false);
+                          setSortPriceHtoL(false);
+                        }}
+                      >
+                        Product: Top Sales
+                      </a>
                     </li>
                   </ul>
                 </div>
@@ -85,7 +254,7 @@ function ProductList(props){
                   <ul className="shop-sidebar-product">
                     <li>
                       <div className="side-pro-img">
-                        <a href="#">
+                        <a href="/#">
                           <img src="./assets/shop-rsp3.jpg" alt="" />
                         </a>
                       </div>
@@ -98,7 +267,7 @@ function ProductList(props){
                           <i className="fas fa-star" />
                         </div>
                         <h5>
-                          <a href="#">Raglan Baseball-Style</a>
+                          <a href="/#">Raglan Baseball-Style</a>
                         </h5>
                         <div className="side-pro-price">
                           <span>$119.00 USD</span>
@@ -107,7 +276,7 @@ function ProductList(props){
                     </li>
                     <li>
                       <div className="side-pro-img">
-                        <a href="#">
+                        <a href="/#">
                           <img src="./assets/shop-rsp2.jpg" alt="" />
                         </a>
                       </div>
@@ -120,7 +289,7 @@ function ProductList(props){
                           <i className="fas fa-star" />
                         </div>
                         <h5>
-                          <a href="#">Raglan Baseball-Style</a>
+                          <a href="/#">Raglan Baseball-Style</a>
                         </h5>
                         <div className="side-pro-price">
                           <span>$119.00 USD</span>
@@ -129,7 +298,7 @@ function ProductList(props){
                     </li>
                     <li>
                       <div className="side-pro-img">
-                        <a href="#">
+                        <a href="/#">
                           <img src="./assets/shop-rsp4.jpg" alt="" />
                         </a>
                       </div>
@@ -142,7 +311,7 @@ function ProductList(props){
                           <i className="fas fa-star" />
                         </div>
                         <h5>
-                          <a href="#">Raglan Baseball-Style</a>
+                          <a href="/#">Raglan Baseball-Style</a>
                         </h5>
                         <div className="side-pro-price">
                           <span>$119.00 USD</span>
@@ -153,7 +322,7 @@ function ProductList(props){
                 </div>
                 <div className="shop-widget">
                   <div className="shop-sidebar-banner">
-                    <a href="#">
+                    <a href="/#">
                       <img src="./assets/shop-banner.jpg" alt="" />
                     </a>
                   </div>

@@ -1,3 +1,7 @@
+*{
+  scroll-behavior: smooth;
+}
+
 p{
   font-weight: 700;
   font-size: 30px;

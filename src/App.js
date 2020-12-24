@@ -5,106 +5,53 @@ import "./App.css";
 import Footer from "./components/Footer/Footer";
 import ProductList from "./components/ProductList/ProductList.container";
 import Login from "./components/Login/Login.container";
-import NoMatch from "./components/NoMatch/NoMatch"
-import ProductDetail from "./components/ProductDetail/ProductDetail.container"
-import PrivateRoute from "./components/PrivateRoute"
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-
-
-
-const dssp = [
-  {
-    productId: 1,
-    shop: "NC",
-    name: "A",
-    price: 500001,
-    pricePromoted: 40000
-  },
-  {
-    productId: 2,
-    shop: "NC",
-    name: "B",
-    price: 500007,
-    pricePromoted: 40000
-  },
-  {
-    productId: 3,
-    shop: "NC",
-    name: "C",
-    price: 500005,
-    pricePromoted: 40000
-  },
-  {
-    productId: 4,
-    shop: "NC",
-    name: "D",
-    price: 500009,
-    pricePromoted: 40000
-  },
-  {
-    productId: 5,
-    shop: "NC",
-    name: "E",
-    price: 500012,
-    pricePromoted: 40000
-  }
-];
+import NoMatch from "./components/NoMatch/NoMatch";
+import ProductDetail from "./components/ProductDetail/ProductDetail.container";
+import PrivateRoute from "./components/PrivateRoute";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
-  const [prdInCart, setPrdInCart] = useState([])
-  const [data, setData] = useState([])
+  const [prdInCart, setPrdInCart] = useState([]);
+
   const onAddToCart = (product) => {
-    setPrdInCart([...prdInCart, product])
-  }
+    setPrdInCart([...prdInCart, product]);
+  };
 
   const removeProduct = (product) => {
-    console.log(product, 'product')
-    const products = prdInCart.filter(elm => elm.product_id !== product.product_id)
-    setPrdInCart(products)
-    console.log(products,'products')
-    console.log(prdInCart,'prdInCart')
-  }
-  const handleSortNameAtoZ = () => {
-    const products = [...data]
-    const newProducts = products.sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0));
-    setData(newProducts)
-  }
-  const handleSortNameZtoA = () => {
-    const products = [...data]
-    const newProducts = products.sort((a, b) => b.name.charCodeAt(0) - a.name.charCodeAt(0));
-    setData(newProducts)
-  }
-  const handleSortPriceHighToLow = () => {
-    const products = [...data]
-    const newProducts = products.sort((a, b) => a.price - b.price);
-    setData(newProducts)
-  }
-  const handleSortPriceLowToHigh = () => {
-    const products = [...data]
-    const newProducts = products.sort((a, b) => b.price - a.price);
-    setData(newProducts)
-  }
-  
-  
+    console.log(product, "product");
+    const products = prdInCart.filter(
+      (elm) => elm.product_id !== product.product_id
+    );
+    setPrdInCart(products);
+    console.log(products, "products");
+    console.log(prdInCart, "prdInCart");
+  };
+
   return (
     <Router>
-      <Header onAddToCart={onAddToCart} prdInCart={prdInCart} removeProduct={removeProduct} />
-      {/* <ProductList data={dssp} addToCart={addToCart}/> */}
-      <Switch>
-      <Route path="/(login|dangnhap)/" component={Login} />
-      <Route path="/(register|dangky)/" component={Register} />
-      <Route exact path="/" render={() => 
-      (<ProductList
-        handleSortNameAtoZ={handleSortNameAtoZ}
-        handleSortNameZtoA={handleSortNameZtoA}
-        handleSortPriceHighToLow={handleSortPriceHighToLow}
-        handleSortPriceLowToHigh={handleSortPriceLowToHigh}
+      <Header
         onAddToCart={onAddToCart}
+        prdInCart={prdInCart}
         removeProduct={removeProduct}
-      />)}
       />
-        <PrivateRoute path="/(ProductDetail|chitietsanpham)/:id" component={ProductDetail} />
-        
+      <Switch>
+        <Route path="/(login|dangnhap)/" component={Login} />
+        <Route path="/(register|dangky)/" component={Register} />
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <ProductList
+              onAddToCart={onAddToCart}
+              removeProduct={removeProduct}
+            />
+          )}
+        />
+        <PrivateRoute
+          path="/(ProductDetail|chitietsanpham)/:id"
+          component={ProductDetail}
+        />
+
         <Route component={NoMatch} />
       </Switch>
       <Footer />
@@ -112,4 +59,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

@@ -61,12 +61,12 @@ a:focus,
 }
 a:focus,
 a:hover {
-	color: #10111e;
+	color: white;
 	text-decoration: none;
 }
 a,
 button {
-	color: #10111e;
+	color: #fe5245;
 	outline: medium none;
 	transition: .3s;
 }
@@ -4482,6 +4482,19 @@ ul.cat li a:hover {
   -webkit-animation-delay: -0.8s;
 }
 
+#login-btn{
+	position: relative;
+}
+
+#user-icon{
+	position: absolute;
+	top: 17px;
+}
+
+#user{
+	position: absolute;
+}
+
 @keyframes preloader {
   0% {
     transform: scale(0, 0);
@@ -4505,5 +4518,7 @@ ul.cat li a:hover {
     opacity: 0;
   }
 }
+
+
 
 /*--- end of preloader ---*/
